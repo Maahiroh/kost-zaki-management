@@ -16,15 +16,18 @@ export default function WifiCard({ isAdmin }: WifiCardProps) {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    const current = kosService.getWifiInfo();
-    setWifiInfo(current);
-    setSsidInput(current.ssid);
-    setPasswordInput(current.password);
+    async function loadWifi() {
+      const current = await kosService.getWifiInfo();
+      setWifiInfo(current);
+      setSsidInput(current.ssid);
+      setPasswordInput(current.password);
+    }
+    loadWifi();
   }, []);
 
-  const handleSave = (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    const updated = kosService.updateWifiInfo(ssidInput, passwordInput);
+    const updated = await kosService.updateWifiInfo(ssidInput, passwordInput);
     setWifiInfo(updated);
     setIsEditing(false);
   };

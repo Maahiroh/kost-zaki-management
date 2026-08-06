@@ -15,9 +15,13 @@ export default function QrisModal({ isOpen, isAdmin, onClose }: QrisModalProps) 
   const [uploadSuccess, setUploadSuccess] = useState(false);
 
   useEffect(() => {
-    if (isOpen) {
-      setQrisImage(kosService.getQrisImage());
+    async function loadQris() {
+      if (isOpen) {
+        const image = await kosService.getQrisImage();
+        setQrisImage(image);
+      }
     }
+    loadQris();
   }, [isOpen]);
 
   if (!isOpen) return null;
@@ -27,10 +31,10 @@ export default function QrisModal({ isOpen, isAdmin, onClose }: QrisModalProps) 
     if (!file) return;
 
     const reader = new FileReader();
-    reader.onload = (event) => {
+    reader.onload = async (event) => {
       const dataUrl = event.target?.result as string;
       if (dataUrl) {
-        kosService.updateQrisImage(dataUrl);
+        await kosService.updateQrisImage(dataUrl);
         setQrisImage(dataUrl);
         setUploadSuccess(true);
         setTimeout(() => setUploadSuccess(false), 3000);
@@ -39,9 +43,9 @@ export default function QrisModal({ isOpen, isAdmin, onClose }: QrisModalProps) 
     reader.readAsDataURL(file);
   };
 
-  const handleResetDefault = () => {
+  const handleResetDefault = async () => {
     const defaultSrc = "/qris-default.svg";
-    kosService.updateQrisImage(defaultSrc);
+    await kosService.updateQrisImage(defaultSrc);
     setQrisImage(defaultSrc);
     setUploadSuccess(true);
     setTimeout(() => setUploadSuccess(false), 3000);

@@ -147,6 +147,10 @@ export const kosService = {
   },
 
   async getActivityLogs(): Promise<ActivityLog[]> {
+    if (isSupabaseConfigured()) {
+      const { data, error } = await supabase.from("activity_logs").select("*").order("date", { ascending: false });
+      if (!error && data) return data as ActivityLog[];
+    }
     const logs = getLocalStore("kos_activity_logs", INITIAL_ACTIVITY_LOGS);
     const seenIds = new Set<string>();
     let modified = false;
@@ -169,6 +173,22 @@ export const kosService = {
   },
 
   async logActivity(log: Omit<ActivityLog, "id">) {
+    if (isSupabaseConfigured()) {
+      const { data, error } = await supabase
+        .from("activity_logs")
+        .insert({
+          type: log.type,
+          tenant_name: log.tenant_name,
+          room_number: log.room_number,
+          date: log.date,
+          amount: log.amount,
+          duration_months: log.duration_months,
+          notes: log.notes,
+        })
+        .select()
+        .single();
+      if (!error && data) return data as ActivityLog;
+    }
     const logs = await this.getActivityLogs();
     const newLog: ActivityLog = {
       ...log,
@@ -364,25 +384,51 @@ export const kosService = {
     return updatedRooms.find((r) => r.id === params.id)!;
   },
 
-  getWifiInfo(): { ssid: string; password: string } {
+  async getWifiInfo(): Promise<{ ssid: string; password: string }> {
+    if (isSupabaseConfigured()) {
+      const { data, error } = await supabase.from("settings").select("value").eq("key", "wifi_info").maybeSingle();
+      if (!error && data?.value) {
+        return data.value as { ssid: string; password: string };
+      }
+    }
     return getLocalStore("kos_wifi_info", {
       ssid: "Kost Zaki Wetan Mantras",
       password: "wetanmantras123",
     });
   },
 
-  updateWifiInfo(ssid: string, password: string): { ssid: string; password: string } {
-    const data = { ssid: ssid || "Kost Zaki Wetan Mantras", password: password || "wetanmantras123" };
-    setLocalStore("kos_wifi_info", data);
-    return data;
+  async updateWifiInfo(ssid: string, password: string): Promise<{ ssid: string; password: string }> {
+    const dataObj = { ssid: ssid || "Kost Zaki Wetan Mantras", password: password || "wetanmantras123" };
+    if (isSupabaseConfigured()) {
+      await supabase.from("settings").upsert({
+        key: "wifi_info",
+        value: dataObj,
+        updated_at: new Date().toISOString(),
+      });
+    }
+    setLocalStore("kos_wifi_info", dataObj);
+    return dataObj;
   },
 
-  getQrisImage(): string {
+  async getQrisImage(): Promise<string> {
+    if (isSupabaseConfigured()) {
+      const { data, error } = await supabase.from("settings").select("value").eq("key", "qris_image").maybeSingle();
+      if (!error && data?.value) {
+        return data.value as string;
+      }
+    }
     return getLocalStore("kos_qris_image", "/qris-default.svg");
   },
 
-  updateQrisImage(imageSrc: string): string {
+  async updateQrisImage(imageSrc: string): Promise<string> {
     const src = imageSrc || "/qris-default.svg";
+    if (isSupabaseConfigured()) {
+      await supabase.from("settings").upsert({
+        key: "qris_image",
+        value: src,
+        updated_at: new Date().toISOString(),
+      });
+    }
     setLocalStore("kos_qris_image", src);
     return src;
   },
@@ -396,16 +442,32 @@ export const kosService = {
   },
 
   async getGalleryPhotos(): Promise<GalleryPhoto[]> {
+    if (isSupabaseConfigured()) {
+      const { data, error } = await supabase.from("gallery_photos").select("*").order("created_at", { ascending: false });
+      if (!error && data) return data as GalleryPhoto[];
+    }
     return getLocalStore("kos_gallery_photos", INITIAL_GALLERY_PHOTOS);
   },
 
   async addGalleryPhoto(params: { title: string; url: string; category?: string }): Promise<GalleryPhoto> {
+    if (isSupabaseConfigured()) {
+      const { data, error } = await supabase
+        .from("gallery_photos")
+        .insert({
+          title: params.title || "Foto Kos",
+          url: params.url,
+          category: params.category || "Kos",
+        })
+        .select()
+        .single();
+      if (!error && data) return data as GalleryPhoto;
+    }
     const photos = await this.getGalleryPhotos();
     const newPhoto: GalleryPhoto = {
       id: `gal-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
       title: params.title || "Foto Kos",
       url: params.url,
-      category: params.category || "Fasilitas",
+      category: params.category || "Kos",
       created_at: new Date().toISOString(),
     };
     const updated = [newPhoto, ...photos];
@@ -414,6 +476,9 @@ export const kosService = {
   },
 
   async deleteGalleryPhoto(id: string): Promise<void> {
+    if (isSupabaseConfigured()) {
+      await supabase.from("gallery_photos").delete().eq("id", id);
+    }
     const photos = await this.getGalleryPhotos();
     const updated = photos.filter((p) => p.id !== id);
     setLocalStore("kos_gallery_photos", updated);
