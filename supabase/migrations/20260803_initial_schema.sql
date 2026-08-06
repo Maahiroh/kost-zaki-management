@@ -1,5 +1,9 @@
--- Create ENUM status
-CREATE TYPE room_status_type AS ENUM ('Kosong', 'Terisi');
+-- Safe ENUM creation
+DO $$ BEGIN
+    CREATE TYPE room_status_type AS ENUM ('Kosong', 'Terisi');
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
 
 -- Table: rooms
 CREATE TABLE IF NOT EXISTS rooms (
@@ -52,13 +56,25 @@ ALTER TABLE tenants ENABLE ROW LEVEL SECURITY;
 ALTER TABLE payment_logs ENABLE ROW LEVEL SECURITY;
 ALTER TABLE activity_logs ENABLE ROW LEVEL SECURITY;
 
--- Allow Public/Anon access for application CRUD
+-- Drop existing policies if any to prevent conflict
+DROP POLICY IF EXISTS "Allow public all rooms" ON rooms;
+DROP POLICY IF EXISTS "Allow public all tenants" ON tenants;
+DROP POLICY IF EXISTS "Allow public all payment_logs" ON payment_logs;
+DROP POLICY IF EXISTS "Allow public all activity_logs" ON activity_logs;
+DROP POLICY IF EXISTS "Public rooms view" ON rooms;
+DROP POLICY IF EXISTS "Public tenants view" ON tenants;
+DROP POLICY IF EXISTS "Admin full rooms" ON rooms;
+DROP POLICY IF EXISTS "Admin full tenants" ON tenants;
+DROP POLICY IF EXISTS "Admin full payment_logs" ON payment_logs;
+DROP POLICY IF EXISTS "Admin full activity_logs" ON activity_logs;
+
+-- Create Public/Anon access policies
 CREATE POLICY "Allow public all rooms" ON rooms FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Allow public all tenants" ON tenants FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Allow public all payment_logs" ON payment_logs FOR ALL USING (true) WITH CHECK (true);
 CREATE POLICY "Allow public all activity_logs" ON activity_logs FOR ALL USING (true) WITH CHECK (true);
 
--- Seed initial 5 rooms if table is empty
+-- Seed initial 5 rooms
 INSERT INTO rooms (room_number, status, price_monthly, floor, type)
 VALUES
   ('101', 'Kosong', 750000, 1, 'Standard'),
