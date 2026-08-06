@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="400" height="500">
+  <defs>
+    <linearGradient id="qrisBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#FAF6F0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Card Background -->
+  <rect x="0" y="0" width="400" height="500" rx="32" fill="url(#qrisBg)" stroke="#8D6E63" stroke-width="4"/>
+  
+  <!-- Header Bar -->
+  <rect x="0" y="0" width="400" height="80" rx="32" fill="#E02424"/>
+  <rect x="0" y="50" width="400" height="30" fill="#E02424"/>
+  
+  <!-- QRIS Header Text -->
+  <text x="200" y="45" font-family="Arial, sans-serif" font-weight="bold" font-size="28" fill="#FFFFFF" text-anchor="middle">QRIS</text>
+  <text x="200" y="68" font-family="Arial, sans-serif" font-weight="bold" font-size="12" fill="#FFFFFF" opacity="0.9" text-anchor="middle">QR CODE STANDAR PEMBAYARAN NASIONAL</text>
+
+  <!-- Merchant Info -->
+  <text x="200" y="115" font-family="Georgia, serif" font-weight="bold" font-size="20" fill="#4E342E" text-anchor="middle">KOST ZAKI WETAN MANTRAS</text>
+  <text x="200" y="135" font-family="Arial, sans-serif" font-size="12" fill="#8D6E63" text-anchor="middle">NMID: ID1029384756102</text>
+
+  <!-- QR Code Inner Box -->
+  <rect x="50" y="150" width="300" height="280" rx="16" fill="#FFFFFF" stroke="#D7B174" stroke-width="2"/>
+
+  <!-- Corner Positioning Marks -->
+  <!-- Top Left -->
+  <rect x="75" y="175" width="60" height="60" fill="#4E342E"/>
+  <rect x="87" y="187" width="36" height="36" fill="#FFFFFF"/>
+  <rect x="95" y="195" width="20" height="20" fill="#4E342E"/>
+
+  <!-- Top Right -->
+  <rect x="265" y="175" width="60" height="60" fill="#4E342E"/>
+  <rect x="277" y="187" width="36" height="36" fill="#FFFFFF"/>
+  <rect x="285" y="195" width="20" height="20" fill="#4E342E"/>
+
+  <!-- Bottom Left -->
+  <rect x="75" y="345" width="60" height="60" fill="#4E342E"/>
+  <rect x="87" y="357" width="36" height="36" fill="#FFFFFF"/>
+  <rect x="95" y="365" width="20" height="20" fill="#4E342E"/>
+
+  <!-- Decorative QR Data Patterns -->
+  <rect x="155" y="175" width="20" height="20" fill="#8D6E63"/>
+  <rect x="185" y="175" width="35" height="15" fill="#4E342E"/>
+  <rect x="230" y="180" width="20" height="20" fill="#8D6E63"/>
+  
+  <rect x="150" y="210" width="40" height="20" fill="#4E342E"/>
+  <rect x="200" y="205" width="20" height="40" fill="#D7B174"/>
+  <rect x="230" y="220" width="25" height="25" fill="#8D6E63"/>
+
+  <!-- Center Logo Badge -->
+  <circle cx="200" cy="290" r="32" fill="#FAF6F0" stroke="#8D6E63" stroke-width="3"/>
+  <path d="M 185 298 L 200 282 L 215 298 L 215 304 L 185 304 Z" fill="#8D6E63"/>
+  <path d="M 191 304 L 191 292 L 209 292 L 209 304 Z" fill="#4E342E"/>
+
+  <!-- Lower Data Patterns -->
+  <rect x="150" y="345" width="30" height="20" fill="#8D6E63"/>
+  <rect x="190" y="350" width="20" height="30" fill="#4E342E"/>
+  <rect x="220" y="360" width="40" height="20" fill="#D7B174"/>
+
+  <rect x="270" y="260" width="45" height="20" fill="#4E342E"/>
+  <rect x="260" y="290" width="20" height="40" fill="#8D6E63"/>
+  <rect x="290" y="340" width="30" height="30" fill="#4E342E"/>
+
+  <!-- Footer Instructions -->
+  <text x="200" y="455" font-family="Arial, sans-serif" font-weight="bold" font-size="13" fill="#4E342E" text-anchor="middle">Scan untuk Pembayaran Sewa Kost Zaki</text>
+  <text x="200" y="475" font-family="Arial, sans-serif" font-size="11" fill="#8D6E63" text-anchor="middle">Mendukung BCA, Mandiri, BRI, GoPay, OVO, Dana, ShopeePay</text>
+</svg>

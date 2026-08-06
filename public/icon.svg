@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D7B174"/>
+      <stop offset="50%" stop-color="#C69C5C"/>
+      <stop offset="100%" stop-color="#8D6E63"/>
+    </linearGradient>
+    <linearGradient id="houseGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#FAF6F0"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#4E342E" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background Card -->
+  <rect x="0" y="0" width="512" height="512" rx="112" fill="url(#bgGrad)"/>
+  
+  <!-- Outer Glow Ring -->
+  <rect x="24" y="24" width="464" height="464" rx="92" fill="none" stroke="#FFFFFF" stroke-opacity="0.2" stroke-width="6"/>
+
+  <!-- House Symbol Group -->
+  <g filter="url(#shadow)" transform="translate(0, 8)">
+    <!-- Roof Chimney / Accent -->
+    <path d="M 330 180 L 330 140 A 10 10 0 0 1 340 130 L 360 130 A 10 10 0 0 1 370 140 L 370 215 Z" fill="#4E342E" opacity="0.85"/>
+    
+    <!-- Roof Main -->
+    <path d="M 120 240 L 256 128 L 392 240 A 16 16 0 0 1 381 268 L 376 268 L 376 376 A 24 24 0 0 1 352 400 L 160 400 A 24 24 0 0 1 136 376 L 136 268 L 131 268 A 16 16 0 0 1 120 240 Z" fill="url(#houseGrad)"/>
+    
+    <!-- Door / Entrance Accent -->
+    <path d="M 216 400 L 216 312 A 16 16 0 0 1 232 296 L 280 296 A 16 16 0 0 1 296 312 L 296 400 Z" fill="#4E342E"/>
+    
+    <!-- Door Knob -->
+    <circle cx="282" cy="356" r="6" fill="#D7B174"/>
+    
+    <!-- Window Heart/Star Accent on Gable -->
+    <circle cx="256" cy="220" r="22" fill="#8D6E63" opacity="0.2"/>
+    <path d="M 256 206 L 261 216 L 271 217 L 263 224 L 266 234 L 256 228 L 246 234 L 249 224 L 241 217 L 251 216 Z" fill="#8D6E63"/>
+  </g>
+</svg>
